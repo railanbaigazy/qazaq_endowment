@@ -1,103 +1,222 @@
-import Image from "next/image";
+"use client";
+
+import Link from "next/link";
+import Navbar from "../components/Navbar";
+import { useContext, useEffect, useState } from "react";
+import { LanguageContext } from "../context/LanguageContext";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const { language } = useContext(LanguageContext);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
+  // Define the texts for each language
+  const englishTexts = [
+    "Making a difference in Kazakhstan, one project at a time.",
+    "Empowering the future with innovation.",
+    "Building sustainable communities.",
+    "Advancing ideas for a better tomorrow."
+  ];
+
+  const kazakhTexts = [
+    "Өзгеріс жасау біздің қолымызда.",
+    "Жаңалыққа шабуыл.",
+    "Болашаққа сенім.",
+    "Тұрақты өркендеу."
+  ];
+
+  const texts = language === "en" ? englishTexts : kazakhTexts;
+
+  const [currentTextIndex, setCurrentTextIndex] = useState(0);
+  const [fade, setFade] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFade(true); 
+      setTimeout(() => {
+        setCurrentTextIndex((prevIndex) => (prevIndex + 1) % texts.length);
+        setFade(false); 
+      }, 500); 
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [texts]);
+
+  const [featuredProjects, setFeaturedProjects] = useState([]);
+  useEffect(() => {
+    fetch("/api/projects/featured")
+      .then((res) => res.json())
+      .then((data) => setFeaturedProjects(data))
+      .catch((err) => console.error("Error fetching projects:", err));
+  }, [language]);
+
+  return (
+    <div>
+      <Navbar />
+      <main>
+        {/* Hero Section */}
+        <section className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-100 to-indigo-100">
+          <div className="text-center p-8 bg-white rounded-lg shadow-lg">
+            {language === "en" ? (
+              <h1 className="text-6xl font-bold text-gray-800">
+                Welcome to <br />
+                <span className="bg-gradient-to-r from-blue-500 to-indigo-500 bg-clip-text text-transparent">
+                  Qazaq Endowment
+                </span>
+              </h1>
+            ) : (
+              <h1 className="text-6xl font-bold text-gray-800">
+                <span className="bg-gradient-to-r from-blue-500 to-indigo-500 bg-clip-text text-transparent">
+                  Qazaq Endowment
+                </span>
+                -ке
+                <br />
+                Қош Келдіңіз!
+              </h1>
+            )}
+            <p
+              className={`mt-4 text-xl text-gray-600 transition-opacity duration-500 ease-in-out ${fade ? "opacity-0" : "opacity-100"
+                }`}
+            >
+              {texts[currentTextIndex]}
+            </p>
+            <Link href="/projects">
+              <button className="mt-6 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white py-2 px-8 rounded-full transition transform hover:scale-105">
+                {language === "en" ? "Explore Projects" : "Жобаларды қарау"}
+              </button>
+            </Link>
+          </div>
+        </section>
+
+        {/* About Section */}
+        <section className="py-16 bg-white">
+          <div className="max-w-6xl mx-auto px-4">
+            {language === "en" ? (
+              <>
+                <h2 className="text-4xl font-bold text-gray-800 text-center">
+                  About Qazaq Endowment
+                </h2>
+                <p className="mt-6 text-lg text-gray-600 text-center">
+                  Qazaq Endowment is dedicated to empowering communities and fostering innovation throughout Kazakhstan. Our mission is to develop sustainable projects that make lasting impacts in various sectors.
+                </p>
+              </>
+            ) : (
+              <>
+                <h2 className="text-4xl font-bold text-gray-800 text-center">
+                  Qazaq Endowment туралы
+                </h2>
+                <p className="mt-6 text-lg text-gray-600 text-center">
+                  Qazaq Endowment Қазақстанда қоғамды қолдау және инновацияны дамытуға бағытталған. Біздің миссиямыз – әртүрлі салалардағы тұрақты жобаларды жүзеге асыру арқылы ұмтылған елдің болашағына үлес қосу.
+                </p>
+              </>
+            )}
+          </div>
+        </section>
+
+        {/* Featured Projects Section */}
+        <section className="py-16 bg-gray-100">
+          <div className="max-w-6xl mx-auto px-4">
+            {language === "en" ? (
+              <>
+                <h2 className="text-4xl font-bold text-gray-800 text-center">
+                  Featured Projects
+                </h2>
+                <p className="mt-4 text-lg text-gray-600 text-center">
+                  Discover our top projects making the biggest impact.
+                </p>
+              </>
+            ) : (
+              <>
+                <h2 className="text-4xl font-bold text-gray-800 text-center">
+                  Таңдаулы Жобалар
+                </h2>
+                <p className="mt-4 text-lg text-gray-600 text-center">
+                  Қазіргі уақытта ең әсерлі жобаларымызбен танысыңыз.
+                </p>
+              </>
+            )}
+            <div className="mt-8 grid gap-8 md:grid-cols-3">
+              {featuredProjects.map((project) => (
+                <div
+                  key={project.id}
+                  className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all"
+                >
+                  <img
+                    src={
+                      project.imageUrl ||
+                      "https://via.placeholder.com/400x300?text=No+Image"
+                    }
+                    alt={language === "en" ? project.title_en : project.title_kk}
+                    className="w-full h-48 object-cover"
+                  />
+                  <div className="p-6">
+                    <h3 className="text-2xl font-bold text-gray-800">
+                      {language === "en" ? project.title_en : project.title_kk}
+                    </h3>
+                    <p className="mt-2 text-gray-600">
+                      {(language === "en"
+                        ? project.description_en
+                        : project.description_kk
+                      ).slice(0, 100)}...
+                    </p>
+                    <div className="mt-4 flex justify-between">
+                      <span className="text-sm text-gray-600">
+                        {language === "en"
+                          ? `$${project.targetBudget}`
+                          : `₸${project.targetBudget}`}
+                      </span>
+                      <span className="text-sm text-gray-600">
+                        {language === "en"
+                          ? `$${project.collectedBudget}`
+                          : `₸${project.collectedBudget}`}
+                      </span>
+                    </div>
+                    <Link href={`/projects/${project.id}`} legacyBehavior>
+                      <a className="inline-block mt-4 text-indigo-600 hover:text-indigo-800 font-semibold">
+                        {language === "en" ? "Learn More" : "Толығырақ"}
+                      </a>
+                    </Link>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Call To Action Section */}
+        <section className="py-16 bg-indigo-600">
+          <div className="max-w-4xl mx-auto text-center">
+            {language === "en" ? (
+              <>
+                <h2 className="text-4xl font-bold text-white">
+                  Ready to Make a Change?
+                </h2>
+                <p className="mt-4 text-lg text-indigo-200">
+                  Join us and be a part of a movement towards sustainable progress in Kazakhstan.
+                </p>
+
+                <Link href="/get-involved" legacyBehavior>
+                  <button className="mt-6 bg-white text-indigo-600 font-semibold py-2 px-8 rounded-full transition transform hover:scale-105">
+                    Get Involved
+                  </button>
+                </Link>
+              </>
+            ) : (
+              <>
+                <h2 className="text-4xl font-bold text-white">
+                  Өзгеріс жасауға дайынсыз ба?
+                </h2>
+                <p className="mt-4 text-lg text-indigo-200">
+                  Қазақстандағы тұрақты дамуға өз үлесіңізді қосыңыз және қозғалыстың бір бөлігі болыңыз.
+                </p>
+                <Link href="/register" legacyBehavior>
+                  <button className="mt-6 bg-white text-indigo-600 font-semibold py-2 px-8 rounded-full transition transform hover:scale-105">
+                    Қатысыңыз
+                  </button>
+                </Link>
+              </>
+            )}
+          </div>
+        </section>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
   );
 }

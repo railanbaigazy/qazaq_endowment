@@ -1,0 +1,83 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id            Int           @id @default(autoincrement())
+  username      String        @unique
+  email         String        @unique
+  password      String
+  role          String        // "donor", "institution", "admin"
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  donations     Donation[]
+  notifications Notification[]
+  projects      Project[]     // projects created by this user (if institution/admin)
+}
+
+model Project {
+  id               Int         @id @default(autoincrement())
+  title_en         String
+  title_kk         String
+  description_en   String
+  description_kk   String
+  targetBudget     Float
+  collectedBudget  Float       @default(0)
+  imageUrl         String?
+  isApproved       Boolean     @default(false)
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+
+  creatorId        Int
+  creator          User        @relation(fields: [creatorId], references: [id])
+  
+  updates          ProjectUpdate[]
+  donations        Donation[]
+  transparencyComments TransparencyComment[]
+}
+
+model TransparencyComment {
+  id         Int      @id @default(autoincrement())
+  project    Project  @relation(fields: [projectId], references: [id])
+  projectId  Int
+  comment_en String
+  comment_kk String
+  imageUrl   String?   // optional image attached to the comment
+  createdAt  DateTime  @default(now())
+}
+
+model ProjectUpdate {
+  id             Int       @id @default(autoincrement())
+  project        Project   @relation(fields: [projectId], references: [id])
+  projectId      Int
+  update_text_en String
+  update_text_kk String
+  createdAt      DateTime  @default(now())
+}
+
+model Donation {
+  id            Int      @id @default(autoincrement())
+  donor         User     @relation(fields: [donorId], references: [id])
+  donorId       Int
+  project       Project  @relation(fields: [projectId], references: [id])
+  projectId     Int
+  amount        Float
+  transactionId String? 
+  status        String   @default("pending")
+  createdAt     DateTime @default(now())
+}
+
+model Notification {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
