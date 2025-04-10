@@ -22,7 +22,6 @@ export default function AboutUsPage() {
 
     return (
         <div className="min-h-screen bg-gray-50">
-            <Navbar />
             <main className="max-w-4xl mx-auto py-16 pt-28 px-4">
                 <h1 className="text-4xl font-bold text-center text-gray-800">
                     {texts.heading}

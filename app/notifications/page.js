@@ -48,7 +48,6 @@ export default function NotificationsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navbar />
       <div className="max-w-xl mx-auto mt-8 space-y-4 pt-28 px-4">
         <h2 className="text-2xl font-bold text-gray-800 mb-4">Notifications</h2>
         {notifications.map((notif) => (

@@ -2,8 +2,8 @@
 
 import { useEffect, useState, useContext } from "react";
 import { useParams, useRouter } from "next/navigation";
-import Navbar from "../../../components/Navbar";
 import { LanguageContext } from "../../../context/LanguageContext";
+import Loader from "@/components/Loader";
 
 export default function ProjectDetailPage() {
     const { language } = useContext(LanguageContext);
@@ -184,7 +184,6 @@ export default function ProjectDetailPage() {
     if (error) {
         return (
             <div className="min-h-screen bg-gray-50">
-                <Navbar />
                 <div className="container mx-auto mt-8 pt-28 text-center">
                     <p className="text-red-600 font-medium">{error}</p>
                 </div>
@@ -193,23 +192,11 @@ export default function ProjectDetailPage() {
     }
 
     if (!project) {
-        return (
-            <div className="min-h-screen bg-gray-50">
-                <Navbar />
-                <div className="container mx-auto mt-8 pt-28 text-center">
-                    <p className="text-gray-600">
-                        {language === "en"
-                            ? "Loading project details..."
-                            : "Жоба мәліметтері жүктелуде..."}
-                    </p>
-                </div>
-            </div>
-        );
+        return <Loader />;
     }
 
     return (
         <div className="min-h-screen bg-gray-50 flex flex-col">
-            <Navbar />
             <div className="flex-grow flex items-center justify-center pt-28">
                 <div className="max-w-3xl w-full p-6 bg-white rounded-lg shadow-md">
                     {/* Project Image */}

@@ -1,60 +1,92 @@
 "use client";
 
 import Link from "next/link";
-import Navbar from "../components/Navbar";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { LanguageContext } from "../context/LanguageContext";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 
 export default function Home() {
   const { language } = useContext(LanguageContext);
 
-  // Define the texts for each language
+  // Animated texts for Hero Section
   const englishTexts = [
-    "Making a difference in Kazakhstan, one project at a time.",
+    "Making a difference, one project at a time.",
     "Empowering the future with innovation.",
     "Building sustainable communities.",
-    "Advancing ideas for a better tomorrow."
+    "Advancing ideas for a better tomorrow.",
+    "Your support is a beacon of hope for society.",
   ];
-
   const kazakhTexts = [
     "Өзгеріс жасау біздің қолымызда.",
-    "Жаңалыққа шабуыл.",
-    "Болашаққа сенім.",
-    "Тұрақты өркендеу."
+    "Қазақстанның жарқын болашағын бірге құрайық.",
+    "Инновация мен тұрақтылық – біздің күшіміз.",
+    "Сенің демеуің – қоғамға жарқын үміт.",
+    "Әрбір қадамың – үлкен өзгеріске бастама.",
   ];
-
   const texts = language === "en" ? englishTexts : kazakhTexts;
 
+  // State for animated text and fade effect
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
   const [fade, setFade] = useState(false);
 
+  // Ref for the hero section background
+  const heroBgRef = useRef(null);
+  gsap.registerPlugin(useGSAP, ScrollTrigger);
+
+  useGSAP(() => {
+    gsap.from(".hero-text", {
+      opacity: 0,
+      y: -50,
+      duration: 1,
+      ease: "power2.out",
+    });
+  }, []);
+
   useEffect(() => {
     const interval = setInterval(() => {
-      setFade(true); 
+      setFade(true);
       setTimeout(() => {
         setCurrentTextIndex((prevIndex) => (prevIndex + 1) % texts.length);
-        setFade(false); 
-      }, 500); 
+        setFade(false);
+      }, 500);
     }, 3000);
-
     return () => clearInterval(interval);
   }, [texts]);
+
+  useGSAP(() => {
+    gsap.utils.toArray(".fade-in-on-scroll").forEach((el) => {
+      gsap.from(el, {
+        scrollTrigger: {
+          trigger: el,
+          start: "top 80%",
+        },
+        opacity: 0,
+        y: 30,
+        duration: 1,
+        ease: "power2.out",
+      });
+    });
+  }, []);
 
   const [featuredProjects, setFeaturedProjects] = useState([]);
   useEffect(() => {
     fetch("/api/projects/featured")
       .then((res) => res.json())
       .then((data) => setFeaturedProjects(data))
-      .catch((err) => console.error("Error fetching projects:", err));
+      .catch((err) => console.error("Error fetching featured projects:", err));
   }, [language]);
 
   return (
     <div>
-      <Navbar />
       <main>
-        {/* Hero Section */}
-        <section className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-100 to-indigo-100">
-          <div className="text-center p-8 bg-white rounded-lg shadow-lg">
+        {/* Hero Section with animated background */}
+        <section
+          ref={heroBgRef}
+          className="hero-bg min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-100 to-indigo-100 bg-[length:200%_auto]"
+        >
+          <div className="hero-text text-center p-16 bg-white rounded-lg shadow-lg">
             {language === "en" ? (
               <h1 className="text-6xl font-bold text-gray-800">
                 Welcome to <br />
@@ -69,17 +101,17 @@ export default function Home() {
                 </span>
                 -ке
                 <br />
-                Қош Келдіңіз!
+                Қош келдіңіз!
               </h1>
             )}
             <p
-              className={`mt-4 text-xl text-gray-600 transition-opacity duration-500 ease-in-out ${fade ? "opacity-0" : "opacity-100"
+              className={`mt-6 text-2xl text-gray-600 transition-opacity duration-500 ease-in-out ${fade ? "opacity-0" : "opacity-100"
                 }`}
             >
               {texts[currentTextIndex]}
             </p>
             <Link href="/projects">
-              <button className="mt-6 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white py-2 px-8 rounded-full transition transform hover:scale-105">
+              <button className="mt-8 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white py-2 px-8 rounded-full transition transform hover:scale-105">
                 {language === "en" ? "Explore Projects" : "Жобаларды қарау"}
               </button>
             </Link>
@@ -87,7 +119,7 @@ export default function Home() {
         </section>
 
         {/* About Section */}
-        <section className="py-16 bg-white">
+        <section className="py-16 bg-white fade-in-on-scroll">
           <div className="max-w-6xl mx-auto px-4">
             {language === "en" ? (
               <>
@@ -112,7 +144,7 @@ export default function Home() {
         </section>
 
         {/* Featured Projects Section */}
-        <section className="py-16 bg-gray-100">
+        <section className="py-16 bg-gray-100 fade-in-on-scroll">
           <div className="max-w-6xl mx-auto px-4">
             {language === "en" ? (
               <>
@@ -129,7 +161,7 @@ export default function Home() {
                   Таңдаулы Жобалар
                 </h2>
                 <p className="mt-4 text-lg text-gray-600 text-center">
-                  Қазіргі уақытта ең әсерлі жобаларымызбен танысыңыз.
+                  Қазіргі уақыттағы ең әсерлі жобаларымызбен танысыңыз.
                 </p>
               </>
             )}
@@ -182,7 +214,7 @@ export default function Home() {
         </section>
 
         {/* Call To Action Section */}
-        <section className="py-16 bg-indigo-600">
+        <section className="py-16 bg-indigo-600 fade-in-on-scroll">
           <div className="max-w-4xl mx-auto text-center">
             {language === "en" ? (
               <>
@@ -190,9 +222,8 @@ export default function Home() {
                   Ready to Make a Change?
                 </h2>
                 <p className="mt-4 text-lg text-indigo-200">
-                  Join us and be a part of a movement towards sustainable progress in Kazakhstan.
+                  Join us and be a part of the movement towards sustainable progress in Kazakhstan.
                 </p>
-
                 <Link href="/get-involved" legacyBehavior>
                   <button className="mt-6 bg-white text-indigo-600 font-semibold py-2 px-8 rounded-full transition transform hover:scale-105">
                     Get Involved

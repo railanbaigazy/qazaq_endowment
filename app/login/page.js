@@ -1,15 +1,22 @@
 "use client";
 
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import Navbar from "../../components/Navbar";
 import { LanguageContext } from "../../context/LanguageContext";
+import { AuthContext } from "@/context/AuthContext";
 
 export default function LoginPage() {
     const router = useRouter();
     const { language } = useContext(LanguageContext);
+    const { login } = useContext(AuthContext);
     const [form, setForm] = useState({ username: "", password: "" });
+
+    useEffect(() => {
+        if (localStorage.getItem("token")) {
+            router.push("/profile");
+        }
+    }, []);
 
     const texts = {
         title: language === "en" ? "Login" : "Кіру",
@@ -29,11 +36,11 @@ export default function LoginPage() {
         });
         if (res.ok) {
             const data = await res.json();
-            localStorage.setItem("token", data.token);
+            login(data.user, data.token);
             alert(
                 language === "en"
                     ? `Logged in as ${data.user.username}`
-                    : `Пайдаланушы кіру: ${data.user.username}`
+                    : `Аккаунтыңызға сәтті кірдіңіз: ${data.user.username}`
             );
             router.push("/");
         } else {
@@ -48,7 +55,6 @@ export default function LoginPage() {
 
     return (
         <div className="min-h-screen bg-gradient-to-r from-blue-50 to-indigo-50 flex flex-col">
-            <Navbar />
             <div className="flex-grow flex items-center justify-center">
                 <div className="max-w-md w-full p-6 bg-white rounded-lg shadow-lg">
                     <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6 text-center">

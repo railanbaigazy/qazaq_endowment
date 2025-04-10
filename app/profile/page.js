@@ -2,38 +2,28 @@
 
 import { useEffect, useState, useContext } from "react";
 import { useRouter } from "next/navigation";
-import Navbar from "../../components/Navbar";
 import { LanguageContext } from "../../context/LanguageContext";
 import Link from "next/link";
+import { AuthContext } from "@/context/AuthContext";
 
 export default function ProfilePage() {
   const { language } = useContext(LanguageContext);
+  const { user, logout } = useContext(AuthContext);
   const router = useRouter();
-  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
+    if (!localStorage.getItem("token")) {
       router.push("/login");
-      return;
     }
-    fetch("/api/users/profile", {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((res) => res.json())
-      .then((data) => setUser(data))
-      .catch((err) => console.error("Profile fetch error:", err));
   }, [router]);
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    setUser(null);
+    logout();
     router.push("/login");
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-50 to-indigo-50 flex flex-col">
-      <Navbar />
       <div className="flex-grow flex items-center justify-center">
         {user ? (
           <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-lg">

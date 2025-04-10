@@ -2,7 +2,6 @@
 
 import { useState, useContext } from "react";
 import { useRouter } from "next/navigation";
-import Navbar from "../../components/Navbar";
 import { LanguageContext } from "../../context/LanguageContext";
 
 export default function RegisterPage() {
@@ -62,7 +61,6 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-50 to-indigo-50 flex flex-col">
-      <Navbar />
       <div className="flex-grow flex items-center justify-center">
         <div className="max-w-md w-full p-6 bg-white rounded-lg shadow-lg">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6 text-center">

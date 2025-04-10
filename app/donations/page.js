@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Navbar from "../../components/Navbar";
 
 export default function DonationsPage() {
   const [donations, setDonations] = useState([]);
@@ -52,7 +51,6 @@ export default function DonationsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navbar />
       <div className="max-w-xl mx-auto mt-8 space-y-8 pt-28 px-4">
         <div className="p-6 bg-white rounded-lg shadow-md">
           <h2 className="text-2xl font-bold text-gray-800 mb-4">Make a Donation</h2>
