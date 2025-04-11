@@ -223,7 +223,7 @@ export default function Home() {
                 <p className="mt-4 text-lg text-indigo-200">
                   Join us and be a part of the movement towards sustainable progress in Kazakhstan.
                 </p>
-                <Link href="/get-involved" legacyBehavior>
+                <Link href="/register" legacyBehavior>
                   <button className="mt-6 bg-white text-indigo-600 font-semibold py-2 px-8 rounded-full transition transform hover:scale-105">
                     Get Involved
                   </button>
