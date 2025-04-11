@@ -176,7 +176,7 @@ export default function Home() {
                   <img
                     src={
                       project.imageUrl ||
-                      "https://via.placeholder.com/400x300?text=No+Image"
+                      "https://i0.wp.com/port2flavors.com/wp-content/uploads/2022/07/placeholder-614.png?fit=1200%2C800&ssl=1"
                     }
                     alt={language === "en" ? project.title_en : project.title_kk}
                     className="w-full h-48 object-cover"
@@ -193,15 +193,11 @@ export default function Home() {
                     </p>
                     <div className="mt-4 flex gap-2 items-center">
                       <span className="text-sm text-green-600 font-bold">
-                        {language === "en"
-                          ? `$${project.collectedBudget}`
-                          : `₸${project.collectedBudget}`}
+                        ₸{project.collectedBudget}
                       </span>
                       <span className="text-sm text-gray-400">/</span>
                       <span className="text-sm text-gray-600">
-                        {language === "en"
-                          ? `$${project.targetBudget}`
-                          : `₸${project.targetBudget}`}
+                        ₸{project.targetBudget}
                       </span>
                     </div>
                     <Link href={`/projects/${project.id}`} legacyBehavior>
