@@ -2,7 +2,7 @@
 
 Qazaq Endowment is a multi-language crowdfunding web application for educational institutions built with Next.js. It utilizes Prisma as an ORM with a PostgreSQL database to manage user accounts and projects. 
 
-[Visit Qazaq Endowment](https://todo)
+[Visit Qazaq Endowment]([https://todo](https://qazaq-endowment.vercel.app))
 
 ## Features
 
