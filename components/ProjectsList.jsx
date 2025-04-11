@@ -7,6 +7,16 @@ import { LanguageContext } from "../context/LanguageContext";
 export default function ProjectsList({ projects }) {
     const { language } = useContext(LanguageContext);
 
+    if (!Array.isArray(projects) || projects.length === 0) {
+        return (
+            <div className="text-center text-red-600">
+                {language === "en"
+                    ? "No projects available at the moment."
+                    : "Қазіргі уақытта жобалар жоқ."}
+            </div>
+        );
+    }
+
     return (
         <>
             <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-800 md:mb-8 mb-4">
