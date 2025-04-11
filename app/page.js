@@ -10,7 +10,6 @@ import { useGSAP } from "@gsap/react";
 export default function Home() {
   const { language } = useContext(LanguageContext);
 
-  // Animated texts for Hero Section
   const englishTexts = [
     "Making a big difference, one project at a time.",
     "Empowering the future with innovation.",
@@ -27,11 +26,9 @@ export default function Home() {
   ];
   const texts = language === "en" ? englishTexts : kazakhTexts;
 
-  // State for animated text and fade effect
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
   const [fade, setFade] = useState(false);
 
-  // Ref for the hero section background
   const heroBgRef = useRef(null);
   gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -76,7 +73,7 @@ export default function Home() {
       .then((res) => res.json())
       .then((data) => setFeaturedProjects(data))
       .catch((err) => console.error("Error fetching featured projects:", err));
-  }, [language]);
+  }, []);
 
   return (
     <div>
