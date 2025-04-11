@@ -9,7 +9,7 @@
     "lint": "next lint",
     "prisma:generate": "npx prisma generate",
     "prisma:migrate-dev": "npx prisma migrate dev --name init",
-    "prisma:migrate-dep": "npx prisma migrate deploy",
+    "prisma:migrate-dep": "npx prisma migrate deploy --preview-feature",
     "postinstall": "npx prisma generate"
   },
   "dependencies": {
