@@ -51,7 +51,7 @@ export default function DonationsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="max-w-xl mx-auto mt-8 space-y-8 pt-28 px-4">
+      <div className="max-w-xl mx-auto space-y-8 md:pt-28 pt-24 px-4">
         <div className="p-6 bg-white rounded-lg shadow-md">
           <h2 className="text-2xl font-bold text-gray-800 mb-4">Make a Donation</h2>
           <form onSubmit={handleSubmit} className="space-y-4">

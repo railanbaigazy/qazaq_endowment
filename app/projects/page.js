@@ -6,7 +6,7 @@ export default async function ProjectsPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-50 to-indigo-50">
-      <div className="container mx-auto pt-28 px-4">
+      <div className="container mx-auto md:pt-28 pt-24 px-4">
         <ProjectsList projects={projects} />
       </div>
     </div>

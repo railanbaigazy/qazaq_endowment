@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import Navbar from "../../components/Navbar";
+import { LanguageContext } from "@/context/LanguageContext";
+import { useState, useEffect, useContext } from "react";
 
 export default function NotificationsPage() {
+  const { language } = useContext(LanguageContext);
   const [notifications, setNotifications] = useState([]);
 
   const fetchNotifications = async () => {
@@ -48,8 +49,12 @@ export default function NotificationsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="max-w-xl mx-auto mt-8 space-y-4 pt-28 px-4">
-        <h2 className="text-2xl font-bold text-gray-800 mb-4">Notifications</h2>
+      <div className="max-w-xl mx-auto mt-8 space-y-4 md:pt-28 pt-22 px-4">
+        <h2 className="text-2xl font-bold text-gray-800 mb-4">
+          {language === "en" 
+            ? "Notifications" 
+            : "Хабарламалар"}
+          </h2>
         {notifications.map((notif) => (
           <div
             key={notif.id}

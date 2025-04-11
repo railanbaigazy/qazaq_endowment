@@ -12,7 +12,7 @@ export default function Home() {
 
   // Animated texts for Hero Section
   const englishTexts = [
-    "Making a difference, one project at a time.",
+    "Making a big difference, one project at a time.",
     "Empowering the future with innovation.",
     "Building sustainable communities.",
     "Advancing ideas for a better tomorrow.",
@@ -84,34 +84,39 @@ export default function Home() {
         {/* Hero Section with animated background */}
         <section
           ref={heroBgRef}
-          className="hero-bg min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-100 to-indigo-100 bg-[length:200%_auto]"
+          className="hero-bg min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-100 to-indigo-100 bg-[length:200%_auto] px-4"
         >
-          <div className="hero-text text-center p-16 bg-white rounded-lg shadow-lg">
+          <div className="hero-text w-full md:max-w-2xl max-w-lg mx-auto text-center md:px-0 md:py-16 px-2 py-8 bg-white rounded-lg shadow-lg">
             {language === "en" ? (
-              <h1 className="text-6xl font-bold text-gray-800">
+              <h1 className="text-4xl md:text-6xl font-bold text-gray-800">
                 Welcome to <br />
                 <span className="bg-gradient-to-r from-blue-500 to-indigo-500 bg-clip-text text-transparent">
                   Qazaq Endowment
                 </span>
               </h1>
             ) : (
-              <h1 className="text-6xl font-bold text-gray-800">
+              <h1 className="text-4xl md:text-6xl font-bold text-gray-800">
+                Қош көрдік! <br />
                 <span className="bg-gradient-to-r from-blue-500 to-indigo-500 bg-clip-text text-transparent">
                   Qazaq Endowment
                 </span>
-                -ке
-                <br />
-                Қош келдіңіз!
+                {/* <br />
+                жаңа үміт */}
               </h1>
             )}
-            <p
-              className={`mt-6 text-2xl text-gray-600 transition-opacity duration-500 ease-in-out ${fade ? "opacity-0" : "opacity-100"
-                }`}
-            >
-              {texts[currentTextIndex]}
-            </p>
+
+            {/* Wrapping animated text in a fixed-height container */}
+            <div className="md:mt-6 mt-4 md:min-h-[80px] min-h-[65px] flex items-center justify-center">
+              <p
+                className={`md:text-2xl text-xl text-gray-600 transition-opacity duration-500 ease-in-out ${fade ? "opacity-0" : "opacity-100"
+                  }`}
+              >
+                {texts[currentTextIndex]}
+              </p>
+            </div>
+
             <Link href="/projects">
-              <button className="mt-8 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white py-2 px-8 rounded-full transition transform hover:scale-105">
+              <button className="md:mt-8 mt-6 text-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white py-2 px-8 rounded-full transition transform hover:scale-105">
                 {language === "en" ? "Explore Projects" : "Жобаларды қарау"}
               </button>
             </Link>
@@ -189,22 +194,23 @@ export default function Home() {
                         : project.description_kk
                       ).slice(0, 100)}...
                     </p>
-                    <div className="mt-4 flex justify-between">
+                    <div className="mt-4 flex gap-2 items-center">
+                      <span className="text-sm text-green-600 font-bold">
+                        {language === "en"
+                          ? `$${project.collectedBudget}`
+                          : `₸${project.collectedBudget}`}
+                      </span>
+                      <span className="text-sm text-gray-400">/</span>
                       <span className="text-sm text-gray-600">
                         {language === "en"
                           ? `$${project.targetBudget}`
                           : `₸${project.targetBudget}`}
                       </span>
-                      <span className="text-sm text-gray-600">
-                        {language === "en"
-                          ? `$${project.collectedBudget}`
-                          : `₸${project.collectedBudget}`}
-                      </span>
                     </div>
                     <Link href={`/projects/${project.id}`} legacyBehavior>
-                      <a className="inline-block mt-4 text-indigo-600 hover:text-indigo-800 font-semibold">
+                      <span className="inline-block mt-4 text-gray-800 hover:text-indigo-800 font-semibold text-end cursor-pointer">
                         {language === "en" ? "Learn More" : "Толығырақ"}
-                      </a>
+                      </span>
                     </Link>
                   </div>
                 </div>
@@ -215,7 +221,7 @@ export default function Home() {
 
         {/* Call To Action Section */}
         <section className="py-16 bg-indigo-600 fade-in-on-scroll">
-          <div className="max-w-4xl mx-auto text-center">
+          <div className="max-w-4xl mx-auto text-center px-4">
             {language === "en" ? (
               <>
                 <h2 className="text-4xl font-bold text-white">

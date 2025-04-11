@@ -197,8 +197,8 @@ export default function ProjectDetailPage() {
 
     return (
         <div className="min-h-screen bg-gray-50 flex flex-col">
-            <div className="flex-grow flex items-center justify-center pt-28">
-                <div className="max-w-3xl w-full p-6 bg-white rounded-lg shadow-md">
+            <div className="flex-grow flex items-center justify-center md:pt-28 pt-22 px-4 pb-4">
+                <div className="max-w-3xl w-full md:p-6 p-4 bg-white rounded-lg shadow-md">
                     {/* Project Image */}
                     <img
                         src={

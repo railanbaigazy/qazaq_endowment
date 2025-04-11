@@ -9,10 +9,10 @@ export default function ProjectsList({ projects }) {
 
     return (
         <>
-            <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-8">
+            <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-800 md:mb-8 mb-4">
                 {language === "en" ? "Projects" : "Жобалар"}
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-4">
                 {projects.map((project) => (
                     <Link key={project.id} href={`/projects/${project.id}`}>
                         <div className="bg-white rounded-lg shadow-md overflow-hidden transition transform duration-300 hover:scale-105 hover:shadow-xl">
