@@ -113,7 +113,7 @@ export default function Home() {
             </div>
 
             <Link href="/projects">
-              <button className="md:mt-8 mt-6 text-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white py-2 px-8 rounded-full transition transform">
+              <button className="md:mt-8 mt-6 text-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white py-2 px-8 rounded-full">
                 {language === "en" ? "Explore Projects" : "Жобаларды қарау"}
               </button>
             </Link>
