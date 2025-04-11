@@ -9,8 +9,7 @@
     "lint": "next lint",
     "prisma:generate": "npx prisma generate",
     "prisma:migrate-dev": "npx prisma migrate dev --name init",
-    "prisma:migrate-dep": "npx prisma migrate deploy --preview-feature",
-    "postinstall": "npx prisma generate"
+    "prisma:migrate-dep": "npx prisma migrate deploy --preview-feature"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
