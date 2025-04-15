@@ -47,6 +47,20 @@ export default function NotificationsPage() {
     }
   };
 
+  if (Array.isArray(notifications) && notifications.length === 0) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <div className="max-w-xl mx-auto mt-8 space-y-4 md:pt-28 pt-22 px-4">
+          <h2 className="text-2xl font-bold text-gray-800 mb-4">
+            {language === "en" 
+              ? "No notifications available" 
+              : "Хабарламалар жоқ"}
+          </h2>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-xl mx-auto mt-8 space-y-4 md:pt-28 pt-22 px-4">
