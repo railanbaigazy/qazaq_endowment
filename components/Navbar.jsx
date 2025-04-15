@@ -28,6 +28,7 @@ export default function Navbar() {
         about: language === "en" ? "About us" : "Біз туралы",
         login: language === "en" ? "Login" : "Кіру",
         register: language === "en" ? "Register" : "Тіркелу",
+        profile: language === "en" ? "Profile" : "Профиль",
     };
 
     // Close the mobile menu when a link is clicked
@@ -171,7 +172,7 @@ export default function Navbar() {
                             </span>
                             <span className="block transition-transform duration-300 ease-in-out hover:scale-105 hover:underline">
                                 <Link href="/profile" onClick={handleLinkClick}>
-                                    <FontAwesomeIcon icon={faUser} className="inline-block" /> Profile
+                                    <FontAwesomeIcon icon={faUser} className="inline-block" /> {texts.profile}
                                 </Link>
                             </span>
                         </>

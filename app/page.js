@@ -125,7 +125,7 @@ export default function Home() {
           <div className="max-w-6xl mx-auto px-4">
             {language === "en" ? (
               <>
-                <h2 className="text-4xl font-bold text-gray-800 text-center">
+                <h2 className="md:text-4xl text-3xl font-bold text-gray-800 text-center">
                   About Qazaq Endowment
                 </h2>
                 <p className="mt-6 text-lg text-gray-600 text-center">
@@ -134,7 +134,7 @@ export default function Home() {
               </>
             ) : (
               <>
-                <h2 className="text-4xl font-bold text-gray-800 text-center">
+                <h2 className="md:text-4xl text-3xl font-bold text-gray-800 text-center">
                   Qazaq Endowment туралы
                 </h2>
                 <p className="mt-6 text-lg text-gray-600 text-center">
@@ -150,7 +150,7 @@ export default function Home() {
           <div className="max-w-6xl mx-auto px-4">
             {language === "en" ? (
               <>
-                <h2 className="text-4xl font-bold text-gray-800 text-center">
+                <h2 className="md:text-4xl text-3xl font-bold text-gray-800 text-center">
                   Featured Projects
                 </h2>
                 <p className="mt-4 text-lg text-gray-600 text-center">
@@ -159,7 +159,7 @@ export default function Home() {
               </>
             ) : (
               <>
-                <h2 className="text-4xl font-bold text-gray-800 text-center">
+                <h2 className="md:text-4xl text-3xl font-bold text-gray-800 text-center">
                   Таңдаулы Жобалар
                 </h2>
                 <p className="mt-4 text-lg text-gray-600 text-center">
