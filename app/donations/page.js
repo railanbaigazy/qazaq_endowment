@@ -1,8 +1,42 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
+import { LanguageContext } from "@/context/LanguageContext";
 
 export default function DonationsPage() {
+  const { language } = useContext(LanguageContext);
+
+  const texts =
+    language === "en"
+      ? {
+        pageTitle: "Make a Donation",
+        projectIdLabel: "Project ID",
+        amountLabel: "Amount",
+        submitButton: "Donate",
+        loginMessage: "You must be logged in to donate.",
+        successMessage: "Donation successful!",
+        failMessage: (error) => `Donation failed: ${error}`,
+        yourDonationsTitle: "Your Donations",
+        idLabel: "ID",
+        projectIdColumn: "Project ID",
+        amountColumn: "Amount",
+        statusColumn: "Status",
+      }
+      : {
+        pageTitle: "Демеуге үлес қосу",
+        projectIdLabel: "Жоба идентификаторы",
+        amountLabel: "Сома",
+        submitButton: "Демеу",
+        loginMessage: "Демеу жасау үшін жүйеге кіру қажет.",
+        successMessage: "Демеу сәтті өтті!",
+        failMessage: (error) => `Демеу сәтсіз аяқталды: ${error}`,
+        yourDonationsTitle: "Сіздің демеулеріңіз",
+        idLabel: "ID",
+        projectIdColumn: "Жоба идентификаторы",
+        amountColumn: "Сома",
+        statusColumn: "Күйі",
+      };
+
   const [donations, setDonations] = useState([]);
   const [form, setForm] = useState({ projectId: "", amount: "" });
 
@@ -28,7 +62,7 @@ export default function DonationsPage() {
     e.preventDefault();
     const token = localStorage.getItem("token");
     if (!token) {
-      alert("You must be logged in to donate.");
+      alert(texts.loginMessage);
       return;
     }
     const res = await fetch("/api/donations", {
@@ -40,24 +74,27 @@ export default function DonationsPage() {
       body: JSON.stringify(form),
     });
     if (res.ok) {
-      alert("Donation successful!");
+      alert(texts.successMessage);
       setForm({ projectId: "", amount: "" });
       fetchDonations();
     } else {
       const errData = await res.json();
-      alert("Donation failed: " + errData.error);
+      alert(texts.failMessage(errData.error));
     }
   };
 
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-xl mx-auto space-y-8 md:pt-28 pt-24 px-4">
+        {/* Donation Form */}
         <div className="p-6 bg-white rounded-lg shadow-md">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">Make a Donation</h2>
+          <h2 className="text-2xl font-bold text-gray-800 mb-4">
+            {texts.pageTitle}
+          </h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Project ID
+                {texts.projectIdLabel}
               </label>
               <input
                 type="number"
@@ -71,7 +108,7 @@ export default function DonationsPage() {
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Amount
+                {texts.amountLabel}
               </label>
               <input
                 type="number"
@@ -87,28 +124,32 @@ export default function DonationsPage() {
               type="submit"
               className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white p-2 rounded transition"
             >
-              Donate
+              {texts.submitButton}
             </button>
           </form>
         </div>
+
+        {/* Donations List */}
         <div>
-          <h3 className="text-xl font-bold text-gray-800 mb-4">Your Donations</h3>
+          <h3 className="text-xl font-bold text-gray-800 mb-4">
+            {texts.yourDonationsTitle}
+          </h3>
           {donations.map((donation) => (
             <div
               key={donation.id}
               className="p-4 mb-4 bg-white rounded-lg shadow-md"
             >
               <p className="text-gray-700">
-                <strong>ID:</strong> {donation.id}
+                <strong>{texts.idLabel}:</strong> {donation.id}
               </p>
               <p className="text-gray-700">
-                <strong>Project ID:</strong> {donation.projectId}
+                <strong>{texts.projectIdColumn}:</strong> {donation.projectId}
               </p>
               <p className="text-gray-700">
-                <strong>Amount:</strong> {donation.amount}
+                <strong>{texts.amountColumn}:</strong> {donation.amount}
               </p>
               <p className="text-gray-700">
-                <strong>Status:</strong> {donation.status}
+                <strong>{texts.statusColumn}:</strong> {donation.status}
               </p>
             </div>
           ))}
